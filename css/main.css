@@ -1,0 +1,133 @@
+* {
+  box-sizing: border-box;
+}
+
+button {
+  background: #484141;
+  padding: 4px 6px;
+  color: #d9dfdf;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  opacity: .7;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+/* Control Component Style */
+.control {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 100px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.control>.iconfont {
+  font-size: 40px;
+  color: #fff;
+  margin: 20px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.control:hover {
+  opacity: 1;
+}
+
+/* Menu Component Style */
+.menu {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  z-index: 100;
+  width: 180px;
+  height: 100vh;
+  color: #747c7c;
+  background: #252f2d;
+  transform: translateX(-100%);
+  transition: transform .3s;
+}
+
+.menu.open {
+  transform: translateX(0);
+}
+
+.menu .icon-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  transform: color .3s;
+}
+
+.menu .icon-close:hover {
+  color: #fff;
+}
+
+.menu .detail {
+  margin-top: 50px;
+}
+
+.menu .detail .tab {
+  padding: 20px 20px;
+  display: flex;
+  text-align: center;
+  cursor: pointer;
+}
+
+.menu .detail .tab.active {
+  color: #fff;
+}
+
+.menu .detail .iconfont {
+  margin-right: 6px;
+}
+
+.menu .content {
+  position: absolute;
+  z-index: 999;
+  left: 180px;
+  top: 0;
+  width: calc(100vw - 180px);
+  height: 100vh;
+  background: #212a29;
+  font-size: 14px;
+  transform: translateX(calc(100% + 180px));
+  transition: transform .6s;
+}
+
+.menu.open .content.active {
+  transform: translateX(0);
+}
+
+.menu .content .header {
+  font-size: 40px;
+  padding: 20px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.menu .content .main {
+  padding: 20px;
+}
+
+
+.menu .content textarea {
+  width: 100%;
+  height: 400px;
+  padding: 10px;
+  background: #283231;
+  color: #aaa;
+  border: none;
+  outline: none;
+}
+
+.menu .content button {
+  margin-top: 16px;
+}
