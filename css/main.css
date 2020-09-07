@@ -98,6 +98,7 @@ button:hover {
   width: calc(100vw - 180px);
   height: 100vh;
   background: #212a29;
+  padding-bottom: 100px;
   font-size: 14px;
   transform: translateX(calc(100% + 180px));
   transition: transform .6s;
@@ -159,4 +160,21 @@ button:hover {
 
 .menu .themes figure img {
   width: 200px;
+}
+
+.menu .theme h3 {
+  font-size: 16px;
+  margin-top: 30px
+}
+
+.menu .theme .transition {
+  margin-top: 30px;
+}
+
+.menu .theme select {
+  display: inline;
+  height: 20px;
+  width: 100px;
+  border-radius: 2px;
+  outline: none;
 }

@@ -120,7 +120,7 @@ const Editor = {
       center: true,
       hash: true,
 
-      transition: "slide",
+      transition: localStorage.transition || "slide",
       dependencies: [
         {
           src: "plugin/markdown/marked.js",
@@ -157,6 +157,7 @@ const Editor = {
 const Theme = {
   init() {
     this.$$figures = $$(".theme figure");
+    this.$transition = $(".theme .transition");
     this.bind();
     this.loadTheme();
   },
@@ -169,6 +170,11 @@ const Theme = {
           this.setTheme($figure.dataset.theme);
         })
     );
+
+    this.$transition.onchange = function () {
+      localStorage.transition = this.value;
+      location.reload();
+    };
   },
   setTheme(theme) {
     localStorage.theme = theme;
@@ -184,6 +190,8 @@ const Theme = {
     [...this.$$figures]
       .find(($figure) => $figure.dataset.theme === theme)
       .classList.add("selected");
+
+    this.$transition.value = localStorage.transition || "slide";
   },
 };
 
