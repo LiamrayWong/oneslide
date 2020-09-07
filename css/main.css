@@ -31,7 +31,7 @@ button:hover {
 
 .control>.iconfont {
   font-size: 40px;
-  color: #fff;
+  color: #d5d9cf;
   margin: 20px;
   display: inline-block;
   cursor: pointer;
@@ -101,6 +101,7 @@ button:hover {
   font-size: 14px;
   transform: translateX(calc(100% + 180px));
   transition: transform .6s;
+  overflow: scroll;
 }
 
 .menu.open .content.active {
@@ -130,4 +131,32 @@ button:hover {
 
 .menu .content button {
   margin-top: 16px;
+}
+
+.menu .themes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.menu .themes figure {
+  margin-top: 30px;
+  text-align: center;
+  opacity: 0.7;
+  border: 4px solid transparent;
+  transition: .3s;
+  cursor: pointer;
+}
+
+.menu .themes figure.selected {
+  opacity: 1;
+  border: 4px solid #fff;
+}
+
+.menu .themes figcaption {
+  padding: 10px;
+}
+
+.menu .themes figure img {
+  width: 200px;
 }
