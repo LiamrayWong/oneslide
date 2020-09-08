@@ -1,9 +1,6 @@
 const isMain = (str) => /^#{1,2}(?!#)/.test(str);
 const isSub = (str) => /^#{3}(?!#)/.test(str);
-const {
-  Query,
-  User
-} = AV;
+
 const convert = (raw) => {
   let arr = raw
     .split(/\n(?=\s*#{1,3}[^#])/)
@@ -244,21 +241,22 @@ const Print = {
   }
 }
 
-const ImageUploader = {
+const ImageUpload = {
   init() {
     this.$fileInput = $('#image-uploader')
     this.$textarea = $('.editor textarea')
 
     AV.init({
-      appId: "UqBaAsQMqOQB3rLwNGLTKtOF-gzGzoHsz",
-      appKey: "uv9EyQmkgX7UjUt4TeVUBhVa",
-      serverURLs: "https://uqbaasqm.lc-cn-n1-shared.com"
-    })
+      appId: "4G4OTM50lLuoOvjiiGRenPYQ-gzGzoHsz",
+      appKey: "R7wxvDkyOmVKecuWAMhVWlGm",
+      serverURL: "https://4g4otm50.lc-cn-n1-shared.com"
+    });
 
     this.bind()
   },
 
   bind() {
+    console.log(this.$fileInput)
     let self = this
     this.$fileInput.onchange = function () {
       if (this.files.length > 0) {
@@ -283,6 +281,16 @@ const ImageUploader = {
         }).catch(err => console.log(err))
       }
     }
+  },
+  insertText(text = '') {
+    let $textarea = this.$textarea
+    let start = $textarea.selectionStart
+    let end = $textarea.selectionEnd
+    let oldText = $textarea.value
+
+    $textarea.value = `${oldText.substring(0, start)}${text} ${oldText.substring(end)}`
+    $textarea.focus()
+    $textarea.setSelectionRange(start, start + text.length)
   }
 }
 
@@ -292,4 +300,4 @@ const App = {
   },
 };
 
-App.init(Menu, Editor, Theme, Print);
+App.init(Menu, ImageUpload, Editor, Theme, Print);

@@ -187,8 +187,15 @@ button:hover {
 }
 
 
-.menu .editor [type=flie] {
+.menu .editor [type=file] {
   display: none;
 }
 
-.menu .editor label {}
+.menu .editor .upload {
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.menu .editor label {
+  cursor: pointer;
+}
