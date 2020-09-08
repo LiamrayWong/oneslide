@@ -3,7 +3,7 @@ const isSub = (str) => /^#{3}(?!#)/.test(str);
 
 const convert = (raw) => {
   let arr = raw
-    .split(/\n(?=\s*#)/)
+    .split(/\n(?=\s*#{1,3}[^#])/)
     .filter((s) => s != "")
     .map((s) => s.trim());
 
@@ -117,7 +117,7 @@ const Editor = {
     Reveal.initialize({
       controls: true,
       progress: true,
-      center: true,
+      center: localStorage.align === "left-top" ? false : true,
       hash: true,
 
       transition: localStorage.transition || "slide",
@@ -158,6 +158,8 @@ const Theme = {
   init() {
     this.$$figures = $$(".theme figure");
     this.$transition = $(".theme .transition");
+    this.$align = $(".theme .align");
+    this.$reveal = $(".reveal");
     this.bind();
     this.loadTheme();
   },
@@ -173,6 +175,11 @@ const Theme = {
 
     this.$transition.onchange = function () {
       localStorage.transition = this.value;
+      location.reload();
+    };
+
+    this.$align.onchange = function () {
+      localStorage.align = this.value;
       location.reload();
     };
   },
@@ -192,6 +199,37 @@ const Theme = {
       .classList.add("selected");
 
     this.$transition.value = localStorage.transition || "slide";
+
+    this.$align.value = localStorage.align || "center";
+
+    this.$reveal.classList.add(this.$align.value);
+  },
+};
+
+const Print = {
+  init() {
+    this.$download = $(".download");
+    this.bind();
+    this.start();
+  },
+  bind() {
+    this.$download.addEventListener("click", () => {
+      let $link = document.createElement("a");
+      $link.setAttribute("target", "_blank");
+      $link.setAttribute("href", location.href);
+    });
+  },
+  start() {
+    let link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.type = "text/css";
+    if (window.location.search.match(/print-pdf/gi)) {
+      link.href = "css/print/pdf.css";
+      window.print();
+    } else {
+      link.href = "css/print/paper.css";
+    }
+    document.head.appendChild(link);
   },
 };
 

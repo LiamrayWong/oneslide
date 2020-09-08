@@ -17,6 +17,14 @@ button:hover {
   opacity: 1;
 }
 
+.reveal.left-top section {
+  text-align: left;
+}
+
+.reveal.left-top .slides>section:first-child {
+  text-align: center;
+}
+
 /* Control Component Style */
 .control {
   position: fixed;
@@ -172,7 +180,6 @@ button:hover {
 }
 
 .menu .theme select {
-  display: inline;
   height: 20px;
   width: 100px;
   border-radius: 2px;
