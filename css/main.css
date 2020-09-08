@@ -13,6 +13,10 @@ button {
   cursor: pointer;
 }
 
+textarea {
+  resize: none
+}
+
 button:hover {
   opacity: 1;
 }
@@ -110,7 +114,7 @@ button:hover {
   font-size: 14px;
   transform: translateX(calc(100% + 180px));
   transition: transform .6s;
-  overflow: scroll;
+  overflow: none;
 }
 
 .menu.open .content.active {

@@ -243,7 +243,7 @@ const Print = {
 
 const ImageUpload = {
   init() {
-    this.$fileInput = $('#image-uploader')
+    this.$fileInput = $('#image-upload')
     this.$textarea = $('.editor textarea')
 
     AV.init({
