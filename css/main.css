@@ -185,3 +185,10 @@ button:hover {
   border-radius: 2px;
   outline: none;
 }
+
+
+.menu .editor [type=flie] {
+  display: none;
+}
+
+.menu .editor label {}

@@ -1,6 +1,9 @@
 const isMain = (str) => /^#{1,2}(?!#)/.test(str);
 const isSub = (str) => /^#{3}(?!#)/.test(str);
-
+const {
+  Query,
+  User
+} = AV;
 const convert = (raw) => {
   let arr = raw
     .split(/\n(?=\s*#{1,3}[^#])/)
@@ -85,13 +88,13 @@ const Menu = {
     };
     this.$$tabs.forEach(
       ($tab) =>
-        ($tab.onclick = () => {
-          this.$$tabs.forEach(($node) => $node.classList.remove("active"));
-          $tab.classList.add("active");
-          let index = [...this.$$tabs].indexOf($tab);
-          this.$$contents.forEach(($node) => $node.classList.remove("active"));
-          this.$$contents[index].classList.add("active");
-        })
+      ($tab.onclick = () => {
+        this.$$tabs.forEach(($node) => $node.classList.remove("active"));
+        $tab.classList.add("active");
+        let index = [...this.$$tabs].indexOf($tab);
+        this.$$contents.forEach(($node) => $node.classList.remove("active"));
+        this.$$contents[index].classList.add("active");
+      })
     );
   },
 };
@@ -121,8 +124,7 @@ const Editor = {
       hash: true,
 
       transition: localStorage.transition || "slide",
-      dependencies: [
-        {
+      dependencies: [{
           src: "plugin/markdown/marked.js",
           condition: function () {
             return !!document.querySelector("[data-markdown]");
@@ -166,11 +168,11 @@ const Theme = {
   bind() {
     this.$$figures.forEach(
       ($figure) =>
-        ($figure.onclick = () => {
-          this.$$figures.forEach(($item) => $item.classList.remove("selected"));
-          $figure.classList.add("selected");
-          this.setTheme($figure.dataset.theme);
-        })
+      ($figure.onclick = () => {
+        this.$$figures.forEach(($item) => $item.classList.remove("selected"));
+        $figure.classList.add("selected");
+        this.setTheme($figure.dataset.theme);
+      })
     );
 
     this.$transition.onchange = function () {
@@ -195,7 +197,7 @@ const Theme = {
     document.head.appendChild($link);
 
     [...this.$$figures]
-      .find(($figure) => $figure.dataset.theme === theme)
+    .find(($figure) => $figure.dataset.theme === theme)
       .classList.add("selected");
 
     this.$transition.value = localStorage.transition || "slide";
@@ -208,30 +210,81 @@ const Theme = {
 
 const Print = {
   init() {
-    this.$download = $(".download");
-    this.bind();
-    this.start();
+    this.$download = $('.download')
+
+    this.bind()
+    this.start()
   },
+
   bind() {
-    this.$download.addEventListener("click", () => {
-      let $link = document.createElement("a");
-      $link.setAttribute("target", "_blank");
-      $link.setAttribute("href", location.href);
-    });
-  },
-  start() {
-    let link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.type = "text/css";
-    if (window.location.search.match(/print-pdf/gi)) {
-      link.href = "css/print/pdf.css";
-      window.print();
-    } else {
-      link.href = "css/print/paper.css";
+    this.$download.addEventListener('click', () => {
+      let $link = document.createElement('a')
+      $link.setAttribute('target', '_blank')
+      $link.setAttribute('href', location.href.replace(/#\/.*/, '?print-pdf'))
+      $link.click()
+    })
+
+    window.onafterprint = () => {
+      console.log('close')
+      window.close()
     }
-    document.head.appendChild(link);
   },
-};
+
+  start() {
+    let link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.type = 'text/css'
+    if (window.location.search.match(/print-pdf/gi)) {
+      link.href = 'css/print/pdf.css'
+      window.print()
+    } else {
+      link.href = 'css/print/paper.css'
+    }
+    document.head.appendChild(link)
+  }
+}
+
+const ImageUploader = {
+  init() {
+    this.$fileInput = $('#image-uploader')
+    this.$textarea = $('.editor textarea')
+
+    AV.init({
+      appId: "UqBaAsQMqOQB3rLwNGLTKtOF-gzGzoHsz",
+      appKey: "uv9EyQmkgX7UjUt4TeVUBhVa",
+      serverURLs: "https://uqbaasqm.lc-cn-n1-shared.com"
+    })
+
+    this.bind()
+  },
+
+  bind() {
+    let self = this
+    this.$fileInput.onchange = function () {
+      if (this.files.length > 0) {
+        let localFile = this.files[0]
+        console.log(localFile)
+        if (localFile.size / 1048576 > 2) {
+          alert('文件不能超过2M')
+          return
+        }
+        self.insertText(`![上传中，进度0%]()`)
+        let avFile = new AV.File(encodeURI(localFile.name), localFile)
+        avFile.save({
+          keepFileName: true,
+          onprogress(progress) {
+            self.insertText(`![上传中，进度${progress.percent}%]()`)
+          }
+        }).then(file => {
+          console.log('文件保存完成')
+          console.log(file)
+          let text = `![${file.attributes.name}](${file.attributes.url}?imageView2/0/w/800/h/400)`
+          self.insertText(text)
+        }).catch(err => console.log(err))
+      }
+    }
+  }
+}
 
 const App = {
   init() {
@@ -239,4 +292,4 @@ const App = {
   },
 };
 
-App.init(Menu, Editor, Theme);
+App.init(Menu, Editor, Theme, Print);
