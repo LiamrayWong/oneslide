@@ -6,9 +6,9 @@ const template = `
 基于 reveal.js 开发的极简 Markdown-PPT
 
 ## Rules
-- # 封面标题
-- ## 主页面标题
-- ### 子页面标题
+- #封面标题
+- ##主页面标题
+- ###子页面标题
 
 
 ### Get Started
