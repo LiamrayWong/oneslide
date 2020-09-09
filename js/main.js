@@ -1,6 +1,23 @@
 const isMain = (str) => /^#{1,2}(?!#)/.test(str);
 const isSub = (str) => /^#{3}(?!#)/.test(str);
+const template = `
+# One Slide
 
+基于 reveal.js 开发的极简 Markdown-PPT
+
+## Rules
+- # 封面标题
+- ## 主页面标题
+- ### 子页面标题
+
+
+### Get Started
+在页面左上角的设置选项里开始你的创作吧
+
+
+## 欢迎使用
+您有改进意见，欢迎联系**1079388320@qq.com**
+`
 const convert = (raw) => {
   let arr = raw
     .split(/\n(?=\s*#{1,3}[^#])/)
@@ -101,7 +118,7 @@ const Editor = {
     this.$editInput = $(".editor textarea");
     this.$saveButton = $(".editor .button-save");
     this.$slideContainer = $(".slides");
-    this.markdown = localStorage.markdown || `# OneSlide`;
+    this.markdown = localStorage.markdown || template;
     this.bind();
     this.start();
   },
